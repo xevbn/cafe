@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: cafe
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+#    username:
+#    password:
