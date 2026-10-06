@@ -24,4 +24,18 @@ public class PointService {
         pointAccount.chargePoint(amount);
         pointAccountRepository.save(pointAccount);
     }
+
+    @Transactional
+    public void decreaseBalance(Long userId, int amount) {
+        PointAccount pointAccount = pointAccountRepository.findWithLockByUserId(userId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_POINT_NOT_FOUND));
+
+        pointAccount.decreaseBalance(amount);
+        pointAccountRepository.save(pointAccount);
+    }
+
+    private PointAccount getPointAccountByUserId(Long userId) {
+        return pointAccountRepository.findByUserId(userId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_POINT_NOT_FOUND));
+    }
 }
