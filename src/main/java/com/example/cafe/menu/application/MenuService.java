@@ -23,4 +23,21 @@ public class MenuService {
                 .map(MenuResponse::from)
                 .toList();
     }
+
+    @Transactional
+    public void changeStatus(Long menuId, MenuStatus status) {
+        Menu found = menuRepository.findById(menuId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.MENU_NOT_FOUND));
+
+        found.changeStatus(status);
+
+        menuRepository.save(found);
+    }
+
+    @Transactional(readOnly = true)
+    public List<MenuResponse> getMenusInList(List<Long> menuIds) {
+        return menuRepository.findAllByIds(menuIds).stream()
+                .map(MenuResponse::from)
+                .toList();
+    }
 }
