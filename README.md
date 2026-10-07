@@ -217,8 +217,8 @@ void 주문_생성에_성공한다() {
 ### 1. 프로젝트 Clone
 
 ```bash
-git clone <repository-url>
-cd <project-name>
+git clone https://github.com/xevbn/cafe.git
+cd cafe
 ```
 
 ### 2. Docker 실행
