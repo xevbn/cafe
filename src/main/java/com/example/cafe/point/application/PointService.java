@@ -1,5 +1,6 @@
 package com.example.cafe.point.application;
 
+import com.example.cafe.common.annotation.DistributedLock;
 import com.example.cafe.common.exception.BusinessException;
 import com.example.cafe.common.exception.ErrorCode;
 import com.example.cafe.point.model.PointAccount;
@@ -26,6 +27,7 @@ public class PointService {
     }
 
     @Transactional
+    @DistributedLock(key = "'pointAccount:' + #userId")
     public void decreaseBalance(Long userId, int amount) {
         PointAccount pointAccount = pointAccountRepository.findWithLockByUserId(userId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_POINT_NOT_FOUND));
@@ -34,7 +36,7 @@ public class PointService {
         pointAccountRepository.save(pointAccount);
     }
 
-    private PointAccount getPointAccountByUserId(Long userId) {
+    public PointAccount getPointAccountByUserId(Long userId) {
         return pointAccountRepository.findByUserId(userId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_POINT_NOT_FOUND));
     }
