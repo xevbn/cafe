@@ -10,4 +10,6 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Inventory> findWithLockByMenuId(Long menuId);
+
+    Optional<Inventory> findByMenuId(Long menuId);
 }
